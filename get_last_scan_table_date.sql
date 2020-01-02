@@ -1,13 +1,15 @@
+CREATE SCHEMA data_engineering;
+
 CREATE TABLE tables_usage(
     dbname varchar(16) ENCODE ZSTD NOT NULL, 
     schemaname varchar(128) ENCODE ZSTD NOT NULL, 
     table_id INT4 ENCODE ZSTD NOT NULL, 
     tablename varchar(128) ENCODE ZSTD NOT NULL,
     size INT8 ENCODE ZSTD NOT NULL, 
-    last_used date ENCODE ZSTD NOT NULL
+    last_used date NOT NULL
 )
 DISTKEY (table_id)
-SORTKEY (table_id);
+SORTKEY (last_used);
 
 DELETE FROM data_engineering.tables_usage
 WHERE table_id NOT IN (
